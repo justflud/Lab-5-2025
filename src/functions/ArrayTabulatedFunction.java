@@ -302,7 +302,17 @@ public class ArrayTabulatedFunction implements TabulatedFunction, Serializable, 
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null) return false;
-        if (o.getClass() == LinkedListTabulatedFunction.class || o.getClass() == ArrayTabulatedFunction.class){
+
+        if (o.getClass() == ArrayTabulatedFunction.class) {
+            // Оптимизация для сравнения массивов напрямую
+            ArrayTabulatedFunction other = (ArrayTabulatedFunction) o;
+            if (this.size != other.size) return false;
+            for (int i = 0; i < size; i++) {
+                if (!this.points[i].equals(other.points[i])) return false;
+            }
+            return true;
+        }
+        if (o.getClass() == LinkedListTabulatedFunction.class){
             for(int i = 0; i < size; ++i)
                 if( !( ((TabulatedFunction)o).getPoint(i).equals(getPoint(i)) ) )
                     return false;

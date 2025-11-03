@@ -342,7 +342,22 @@ public class LinkedListTabulatedFunction implements TabulatedFunction {
     public boolean equals(Object o){
         if (this == o) return true;
         if (o == null) return false;
-        if (o.getClass() == LinkedListTabulatedFunction.class || o.getClass() == ArrayTabulatedFunction.class){
+
+        if (o.getClass() == LinkedListTabulatedFunction.class) {
+            LinkedListTabulatedFunction other = (LinkedListTabulatedFunction) o;
+            if (this.size != other.size) return false;
+
+            FunctionNode currentThis = this.head.next;
+            FunctionNode currentOther = other.head.next;
+
+            while (currentThis != this.head) {
+                if (!currentThis.point.equals(currentOther.point)) return false;
+                currentThis = currentThis.next;
+                currentOther = currentOther.next;
+            }
+            return true;
+        }
+        if (o.getClass() == ArrayTabulatedFunction.class){
             for(int i =0;i < size; ++i)
                 if( !( ((TabulatedFunction)o).getPoint(i).equals(getPoint(i)) ) )
                     return false;
